@@ -85,6 +85,17 @@ ament_target_dependencies(local_planner_node
   ${dependencies}
 )
 
+#local_planner_play_ground_node
+add_executable(local_planner_play_ground_node
+  src/local_planner_play_ground_node.cpp
+)
+target_link_libraries(local_planner_play_ground_node 
+  local_planner
+)
+ament_target_dependencies(local_planner_play_ground_node
+  ${dependencies}
+)
+
 install(TARGETS
   local_planner
   ARCHIVE DESTINATION lib
@@ -95,6 +106,7 @@ install(TARGETS
 #install node
 install(TARGETS
   local_planner_node
+  local_planner_play_ground_node
   RUNTIME DESTINATION lib/${PROJECT_NAME}
 )
 
@@ -103,8 +115,9 @@ install(DIRECTORY include/
 )
 
 install(DIRECTORY
-  #launch
-  #config
+  launch
+  config
+  rviz
   DESTINATION share/${PROJECT_NAME}/
 )
 

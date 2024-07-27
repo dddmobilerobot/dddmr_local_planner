@@ -721,7 +721,7 @@ dddmr_sys_core::PlannerState Local_Planner::computeVelocityCommand(std::string t
   }
   
   //@ Reset kd tree/observations because it is shared_ptr and copied from perception_ros
-  mpc_critics_ros_->getSharedDataPtr()->pcl_perception_.reset(new pcl::PointCloud<pcl::PointXYZI>);
+  mpc_critics_ros_->getSharedDataPtr()->pcl_perception_.reset(new pcl::PointCloud<pcl::PointXYZI>());
   mpc_critics_ros_->getSharedDataPtr()->pcl_perception_kdtree_.reset(new pcl::KdTreeFLANN<pcl::PointXYZI>());
 }
 

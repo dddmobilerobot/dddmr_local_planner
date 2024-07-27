@@ -74,8 +74,8 @@ class ModelSharedData{
     void updateData(){
       global_frame_ = robot_pose_.header.frame_id;
       base_frame_ = robot_pose_.child_frame_id;
-      /* Critics get kd tree  generated in perception_ros when calling aggregateObservations in local planner*/
-      if(pcl_perception_->points.size()>5){
+      /* Critics get kd tree generated in perception_ros when calling aggregateObservations in local planner*/
+      if(pcl_perception_->points.size()>=5){
         pcl_perception_kdtree_.reset(new pcl::KdTreeFLANN<pcl::PointXYZI>());
         pcl_perception_kdtree_->setInputCloud(pcl_perception_);        
       }
