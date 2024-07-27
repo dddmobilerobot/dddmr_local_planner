@@ -1,0 +1,10 @@
+<launch>
+
+  <!--name argument is not required, because it will overwrite all node name in the exec-->
+  <node pkg="recovery_behaviors" exec="recovery_behaviors_node" output="screen" respawn="false">
+    <param from="$(find-pkg-share recovery_behaviors)/config/recovery_behaviors.yaml" />
+  </node>
+  
+<node pkg="tf2_ros" exec="static_transform_publisher" name="map2baselink" args="1.0 0 0.0 0.0 0.0 0.0 /map /base_link" />
+
+</launch>

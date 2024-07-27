@@ -1,0 +1,8 @@
+<launch>
+
+  <!--name argument is not required, because it will overwrite all node name in the exec-->
+  <node pkg="trajectory_generators" exec="trajectory_generators_node" output="screen" respawn="false">
+    <param from="$(find-pkg-share trajectory_generators)/config/trajectory_generators.yaml" />
+  </node>
+
+</launch>

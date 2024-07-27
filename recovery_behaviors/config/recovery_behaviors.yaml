@@ -1,0 +1,94 @@
+recovery_behaviors:
+  ros__parameters:
+    plugins: ["rotate_inplace"]
+    rotate_inplace:
+      plugin: "recovery_behaviors::RotateInPlaceBehavior"
+      frequency: 10.0
+      tolerance: 0.3
+      trajectory_generator_name: "differential_drive_rotate_inplace"
+
+trajectory_generators:
+  ros__parameters:
+    plugins: ["differential_drive_simple", "differential_drive_rotate_inplace"]
+    differential_drive_rotate_inplace:
+      plugin: "trajectory_generators::DDRotateInplaceTheory"
+      controller_frequency: 10.0
+      rotation_speed: 0.4
+      cuboid:
+        p1: [0.42, 0.36, 0.0]
+        p2: [0.42, -0.36, 0.0]
+        p3: [0.42, 0.36, 0.6]
+        p4: [0.42, -0.36, 0.6]
+        p5: [-0.35, 0.36, 0.0]
+        p6: [-0.35, -0.36, 0.0]
+        p7: [-0.35, 0.36, 0.6]
+        p8: [-0.35, -0.36, 0.6]
+    
+    differential_drive_simple:
+      plugin: "trajectory_generators::DDSimpleTrajectoryGeneratorTheory"
+      max_vel_x: 1.0
+      min_vel_x: 0.1 #0.1 This value should not be negative, because we want to customize backward behavior
+      max_vel_theta: 0.6
+      min_vel_theta: 0.15
+      acc_lim_x: 1.0
+      acc_lim_theta: 3.0
+      deceleration_ratio: 2.0
+      max_motor_shaft_rpm: 3000.0
+      wheel_diameter: 0.16
+      gear_ratio: 1.0
+      robot_radius: 0.25
+      
+      controller_frequency: 10.0
+      sim_time: 2.0
+      linear_x_sample: 5.0
+      angular_z_sample: 10.0
+      sim_granularity: 0.05
+      angular_sim_granularity: 0.025
+
+      cuboid:
+        p1: [0.42, 0.36, 0.0]
+        p2: [0.42, -0.36, 0.0]
+        p3: [0.42, 0.36, 0.6]
+        p4: [0.42, -0.36, 0.6]
+        p5: [-0.35, 0.36, 0.0]
+        p6: [-0.35, -0.36, 0.0]
+        p7: [-0.35, 0.36, 0.6]
+        p8: [-0.35, -0.36, 0.6]
+
+mpc_critics:
+  ros__parameters:
+    plugins: ["collision", "stick_path", "pure_pursuit", "toward_global_plan", "collision_rotate"]
+    collision:
+      plugin: "mpc_critics::CollisionModel"
+      trajectory_generator: differential_drive_simple
+      weight: 1.0
+    stick_path:
+      plugin: "mpc_critics::StickPathModel"
+      trajectory_generator: differential_drive_simple
+      weight: 0.1
+    pure_pursuit:
+      plugin: "mpc_critics::PurePursuitModel"
+      trajectory_generator: differential_drive_simple
+      translation_weight: 1.0
+      orientation_weight: 0.01
+    toward_global_plan:
+      plugin: "mpc_critics::TowardGlobalPlanModel"
+      trajectory_generator: differential_drive_simple
+      weight: 1.0
+    collision_rotate:
+      plugin: "mpc_critics::CollisionModel"
+      trajectory_generator: differential_drive_rotate_inplace
+      weight: 1.0
+
+perception_3d:
+  ros__parameters:
+    global_frame: "map"
+    robot_base_frame: "base_link"
+    max_obstacle_distance: 9999.0
+    inscribed_radius: 0.5
+    inflation_descending_rate: 2.0
+    inflation_radius: 1.5
+    sensors_collected_frequency: 5.0
+    plugins: ["map"]
+    map:
+      plugin: "perception_3d::StaticLayer"

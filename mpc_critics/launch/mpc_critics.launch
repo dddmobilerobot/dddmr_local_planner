@@ -1,0 +1,8 @@
+<launch>
+
+  <!--name argument is not required, because it will overwrite all node name in the exec-->
+  <node pkg="mpc_critics" exec="mpc_critics_node" output="screen" respawn="false">
+    <param from="$(find-pkg-share mpc_critics)/config/mpc_critics.yaml" />
+  </node>
+
+</launch>

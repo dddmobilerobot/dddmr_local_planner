@@ -1,0 +1,30 @@
+<class_libraries>
+  <library path="critics">
+
+    <class type="mpc_critics::CollisionModel"  base_class_type="mpc_critics::ScoringModel">
+      <description>TBW</description>
+    </class>
+
+    <class type="mpc_critics::CollisionMinMaxModel"  base_class_type="mpc_critics::ScoringModel">
+      <description>TBW</description>
+    </class>
+
+    <class type="mpc_critics::StickPathModel"  base_class_type="mpc_critics::ScoringModel">
+      <description>TBW</description>
+    </class>
+
+    <class type="mpc_critics::PurePursuitModel"  base_class_type="mpc_critics::ScoringModel">
+      <description>TBW</description>
+    </class>
+    
+    <class type="mpc_critics::ShortestAngleModel"  base_class_type="mpc_critics::ScoringModel">
+      <description>TBW</description>
+    </class>
+
+    <class type="mpc_critics::TowardGlobalPlanModel"  base_class_type="mpc_critics::ScoringModel">
+      <description>TBW</description>
+    </class>
+
+  </library>
+</class_libraries>
+

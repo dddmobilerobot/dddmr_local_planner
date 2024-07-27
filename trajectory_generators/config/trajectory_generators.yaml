@@ -1,0 +1,47 @@
+trajectory_generators:
+  ros__parameters:
+    plugins: ["differential_drive_simple", "differential_drive_rotate_inplace"]
+    differential_drive_rotate_inplace:
+      plugin: "trajectory_generators::DDRotateInplaceTheory"
+      controller_frequency: 10.0
+      rotation_speed: 0.4
+      cuboid:
+        p1: [0.42, 0.36, 0.0]
+        p2: [0.42, -0.36, 0.0]
+        p3: [0.42, 0.36, 0.6]
+        p4: [0.42, -0.36, 0.6]
+        p5: [-0.35, 0.36, 0.0]
+        p6: [-0.35, -0.36, 0.0]
+        p7: [-0.35, 0.36, 0.6]
+        p8: [-0.35, -0.36, 0.6]
+    
+    differential_drive_simple:
+      plugin: "trajectory_generators::DDSimpleTrajectoryGeneratorTheory"
+      max_vel_x: 1.0
+      min_vel_x: 0.1 #0.1 This value should not be negative, because we want to customize backward behavior
+      max_vel_theta: 0.6
+      min_vel_theta: 0.15
+      acc_lim_x: 1.0
+      acc_lim_theta: 3.0
+      deceleration_ratio: 2.0
+      max_motor_shaft_rpm: 3000.0
+      wheel_diameter: 0.16
+      gear_ratio: 1.0
+      robot_radius: 0.25
+      
+      controller_frequency: 10.0
+      sim_time: 2.0
+      linear_x_sample: 5.0
+      angular_z_sample: 10.0
+      sim_granularity: 0.05
+      angular_sim_granularity: 0.025
+
+      cuboid:
+        p1: [0.42, 0.36, 0.0]
+        p2: [0.42, -0.36, 0.0]
+        p3: [0.42, 0.36, 0.6]
+        p4: [0.42, -0.36, 0.6]
+        p5: [-0.35, 0.36, 0.0]
+        p6: [-0.35, -0.36, 0.0]
+        p7: [-0.35, 0.36, 0.6]
+        p8: [-0.35, -0.36, 0.6]
