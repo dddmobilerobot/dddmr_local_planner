@@ -136,166 +136,38 @@ Local_Planner::~Local_Planner(){
 }
 
 void Local_Planner::parseCuboid(){
-  marker_edge_.header.frame_id = robot_frame_;
+  marker_edge_.header.frame_id = perception_3d_ros_->getGlobalUtils()->getRobotFrame();;
   marker_edge_.header.stamp = clock_->now();
   marker_edge_.action = visualization_msgs::msg::Marker::ADD;
   marker_edge_.type = visualization_msgs::msg::Marker::LINE_LIST;
   marker_edge_.pose.orientation.w = 1.0;
   marker_edge_.ns = "edges";
-  marker_edge_.id = 3;
-  marker_edge_.scale.x = 0.03;
-  marker_edge_.color.r = 0.9; marker_edge_.color.g = 1; marker_edge_.color.b = 0;
-  marker_edge_.color.a = 0.8;
-  std::vector<double> p;
-  std::string s;
-  geometry_msgs::msg::Point pt;
+  marker_edge_.id = 3; marker_edge_.scale.x = 0.03;
+  marker_edge_.color.r = 0.9; marker_edge_.color.g = 1; marker_edge_.color.b = 0; marker_edge_.color.a = 0.8;
   //@ parse cuboid, currently the cuboid in local planner is just for visualization
   RCLCPP_INFO(this->get_logger().get_child(name_), "Start to parse cuboid.");
+  std::vector<std::string> cuboid_vertex_queue = {"cuboid.flb", "cuboid.frb", "cuboid.flt", "cuboid.frt", "cuboid.blb", "cuboid.brb", "cuboid.blt", "cuboid.brt"};
+  std::map<std::string, std::vector<double>> cuboid_vertex_parameter_map;
 
-  this->declare_parameter("cuboid.flb", rclcpp::PARAMETER_DOUBLE_ARRAY);
-  rclcpp::Parameter cuboid_flb= this->get_parameter("cuboid.flb");
-  p = cuboid_flb.as_double_array();
-  pt.x = p[0];pt.y = p[1];pt.z = p[2];
-  marker_edge_.points.push_back(pt);
-
-  this->declare_parameter("cuboid.frb", rclcpp::PARAMETER_DOUBLE_ARRAY);
-  rclcpp::Parameter cuboid_frb= this->get_parameter("cuboid.frb");
-  p = cuboid_frb.as_double_array();
-  pt.x = p[0];pt.y = p[1];pt.z = p[2];
-  marker_edge_.points.push_back(pt);
-
-  this->declare_parameter("cuboid.flt", rclcpp::PARAMETER_DOUBLE_ARRAY);
-  rclcpp::Parameter cuboid_flt= this->get_parameter("cuboid.flt");
-  p = cuboid_flt.as_double_array();
-  pt.x = p[0];pt.y = p[1];pt.z = p[2];
-  marker_edge_.points.push_back(pt);
-
-  this->declare_parameter("cuboid.frt", rclcpp::PARAMETER_DOUBLE_ARRAY);
-  rclcpp::Parameter cuboid_frt= this->get_parameter("cuboid.frt");
-  p = cuboid_frt.as_double_array();
-  pt.x = p[0];pt.y = p[1];pt.z = p[2];
-  marker_edge_.points.push_back(pt);
-
-  this->declare_parameter("cuboid.blb", rclcpp::PARAMETER_DOUBLE_ARRAY);
-  rclcpp::Parameter cuboid_blb= this->get_parameter("cuboid.blb");
-  p = cuboid_blb.as_double_array();
-  pt.x = p[0];pt.y = p[1];pt.z = p[2];
-  marker_edge_.points.push_back(pt);
-
-  this->declare_parameter("cuboid.brb", rclcpp::PARAMETER_DOUBLE_ARRAY);
-  rclcpp::Parameter cuboid_brb= this->get_parameter("cuboid.brb");
-  p = cuboid_brb.as_double_array();
-  pt.x = p[0];pt.y = p[1];pt.z = p[2];
-  marker_edge_.points.push_back(pt);
-
-  this->declare_parameter("cuboid.blt", rclcpp::PARAMETER_DOUBLE_ARRAY);
-  rclcpp::Parameter cuboid_blt= this->get_parameter("cuboid.blt");
-  p = cuboid_blt.as_double_array();
-  pt.x = p[0];pt.y = p[1];pt.z = p[2];
-  marker_edge_.points.push_back(pt);
-
-  this->declare_parameter("cuboid.brt", rclcpp::PARAMETER_DOUBLE_ARRAY);
-  rclcpp::Parameter cuboid_brt= this->get_parameter("cuboid.brt");
-  p = cuboid_brt.as_double_array();
-  pt.x = p[0];pt.y = p[1];pt.z = p[2];
-  marker_edge_.points.push_back(pt);
-
-  //node_->declare_parameter("cuboid.flb", rclcpp::PARAMETER_DOUBLE_ARRAY);
-  //rclcpp::Parameter cuboid_flb= node_->get_parameter(cuboid.flb);
-  p = cuboid_flb.as_double_array();
-  pt.x = p[0];pt.y = p[1];pt.z = p[2];
-  marker_edge_.points.push_back(pt);
-
-  //node_->declare_parameter("cuboid.blb", rclcpp::PARAMETER_DOUBLE_ARRAY);
-  //rclcpp::Parameter cuboid_blb= node_->get_parameter(cuboid.blb);
-  p = cuboid_blb.as_double_array();
-  pt.x = p[0];pt.y = p[1];pt.z = p[2];
-  marker_edge_.points.push_back(pt);
-
-  //node_->declare_parameter("cuboid.flt", rclcpp::PARAMETER_DOUBLE_ARRAY);
-  //rclcpp::Parameter cuboid_flt= node_->get_parameter(cuboid.flt);
-  p = cuboid_flt.as_double_array();
-  pt.x = p[0];pt.y = p[1];pt.z = p[2];
-  marker_edge_.points.push_back(pt);
-
-  //node_->declare_parameter("cuboid.blt", rclcpp::PARAMETER_DOUBLE_ARRAY);
-  //rclcpp::Parameter cuboid_blt= node_->get_parameter(cuboid.blt);
-  p = cuboid_blt.as_double_array();
-  pt.x = p[0];pt.y = p[1];pt.z = p[2];
-  marker_edge_.points.push_back(pt);
-
-  //node_->declare_parameter("cuboid.frb", rclcpp::PARAMETER_DOUBLE_ARRAY);
-  //rclcpp::Parameter cuboid_frb= node_->get_parameter(cuboid.frb);
-  p = cuboid_frb.as_double_array();
-  pt.x = p[0];pt.y = p[1];pt.z = p[2];
-  marker_edge_.points.push_back(pt);
-
-  //node_->declare_parameter("cuboid.brb", rclcpp::PARAMETER_DOUBLE_ARRAY);
-  //rclcpp::Parameter cuboid_brb= node_->get_parameter(cuboid.brb);
-  p = cuboid_brb.as_double_array();
-  pt.x = p[0];pt.y = p[1];pt.z = p[2];
-  marker_edge_.points.push_back(pt);
-
-  //node_->declare_parameter("cuboid.frt", rclcpp::PARAMETER_DOUBLE_ARRAY);
-  //rclcpp::Parameter cuboid_frt= node_->get_parameter(cuboid.frt);
-  p = cuboid_frt.as_double_array();
-  pt.x = p[0];pt.y = p[1];pt.z = p[2];
-  marker_edge_.points.push_back(pt);
-
-  //node_->declare_parameter("cuboid.brt", rclcpp::PARAMETER_DOUBLE_ARRAY);
-  //rclcpp::Parameter cuboid_brt= node_->get_parameter(cuboid.brt);
-  p = cuboid_brt.as_double_array();
-  pt.x = p[0];pt.y = p[1];pt.z = p[2];
-  marker_edge_.points.push_back(pt);
-
-  //node_->declare_parameter("cuboid.flt", rclcpp::PARAMETER_DOUBLE_ARRAY);
-  //rclcpp::Parameter cuboid_flt= node_->get_parameter(cuboid.flt);
-  p = cuboid_flt.as_double_array();
-  pt.x = p[0];pt.y = p[1];pt.z = p[2];
-  marker_edge_.points.push_back(pt);
-
-  //node_->declare_parameter("cuboid.flb", rclcpp::PARAMETER_DOUBLE_ARRAY);
-  //rclcpp::Parameter cuboid_flb= node_->get_parameter(cuboid.flb);
-  p = cuboid_flb.as_double_array();
-  pt.x = p[0];pt.y = p[1];pt.z = p[2];
-  marker_edge_.points.push_back(pt);
-
-  //node_->declare_parameter("cuboid.frt", rclcpp::PARAMETER_DOUBLE_ARRAY);
-  //rclcpp::Parameter cuboid_frt= node_->get_parameter(cuboid.frt);
-  p = cuboid_frt.as_double_array();
-  pt.x = p[0];pt.y = p[1];pt.z = p[2];
-  marker_edge_.points.push_back(pt);
-
-  //node_->declare_parameter("cuboid.frb", rclcpp::PARAMETER_DOUBLE_ARRAY);
-  //rclcpp::Parameter cuboid_frb= node_->get_parameter(cuboid.frb);
-  p = cuboid_frb.as_double_array();
-  pt.x = p[0];pt.y = p[1];pt.z = p[2];
-  marker_edge_.points.push_back(pt);
-
-  //node_->declare_parameter("cuboid.blt", rclcpp::PARAMETER_DOUBLE_ARRAY);
-  //rclcpp::Parameter cuboid_blt= node_->get_parameter(cuboid.blt);
-  p = cuboid_blt.as_double_array();
-  pt.x = p[0];pt.y = p[1];pt.z = p[2];
-  marker_edge_.points.push_back(pt);
-
-  //node_->declare_parameter("cuboid.blb", rclcpp::PARAMETER_DOUBLE_ARRAY);
-  //rclcpp::Parameter cuboid_blb= node_->get_parameter(cuboid.blb);
-  p = cuboid_blb.as_double_array();
-  pt.x = p[0];pt.y = p[1];pt.z = p[2];
-  marker_edge_.points.push_back(pt);
-
-  //node_->declare_parameter("cuboid.brt", rclcpp::PARAMETER_DOUBLE_ARRAY);
-  //rclcpp::Parameter cuboid_brt= node_->get_parameter(cuboid.brt);
-  p = cuboid_brt.as_double_array();
-  pt.x = p[0];pt.y = p[1];pt.z = p[2];
-  marker_edge_.points.push_back(pt);
-
-  //node_->declare_parameter("cuboid.brb", rclcpp::PARAMETER_DOUBLE_ARRAY);
-  //rclcpp::Parameter cuboid_brb= node_->get_parameter(cuboid.brb);
-  p = cuboid_brb.as_double_array();
-  pt.x = p[0];pt.y = p[1];pt.z = p[2];
-  marker_edge_.points.push_back(pt);
-
+  for(auto it=cuboid_vertex_queue.begin(); it!=cuboid_vertex_queue.end();it++){
+    std::vector<double> p;
+    geometry_msgs::msg::Point pt;
+    this->declare_parameter(*it, rclcpp::PARAMETER_DOUBLE_ARRAY);
+    rclcpp::Parameter cuboid_param= this->get_parameter(*it);
+    p = cuboid_param.as_double_array();
+    pt.x = p[0];pt.y = p[1];pt.z = p[2];
+    marker_edge_.points.push_back(pt);
+    cuboid_vertex_parameter_map[*it] = p;
+  }
+  RCLCPP_INFO(this->get_logger().get_child(name_), "Cuboid vertex are loaded, start to connect edges.");
+  std::vector<std::string> cuboid_vertex_connect = {"cuboid.flb", "cuboid.blb", "cuboid.flt", "cuboid.blt", "cuboid.frb", "cuboid.brb", "cuboid.frt", "cuboid.brt",
+                                                      "cuboid.flt", "cuboid.flb", "cuboid.frt", "cuboid.frb", "cuboid.blt", "cuboid.blb", "cuboid.brt", "cuboid.brb"};
+  for(auto it=cuboid_vertex_connect.begin(); it!=cuboid_vertex_connect.end();it++){
+    auto p = cuboid_vertex_parameter_map[*it];
+    geometry_msgs::msg::Point pt;
+    pt.x = p[0];pt.y = p[1];pt.z = p[2];
+    marker_edge_.points.push_back(pt);
+  }
 }
 
 void Local_Planner::cbOdom(const nav_msgs::msg::Odometry::SharedPtr msg)
