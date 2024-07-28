@@ -5,7 +5,7 @@ DDDmobileRobot local planner including following plugined-based features:
 - Critics
 - Recovery behaviors
 
-Our local planner is similar as Nav2 DWB planner but dirrerentiate from following perspectives:
+Our local planner is similar as Nav2 DWB planner but differentiate from following perspectives:
 - Our local planner is for 3D navigation, the collision and trajectory rating are computed in 3D perspective. For example, the collision check in 2D is by checking a point in a polygon, however, in 3D we check collision by checking a point cloud in a cuboid.
 - Our local planner enable each trajectory generator to have seperated critics and weights, which allowing users to setup flexibility behaviors for the robot.
 <p align='center'>
