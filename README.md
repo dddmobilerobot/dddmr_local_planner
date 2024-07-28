@@ -36,4 +36,7 @@ source install/setup.bash
 ros2 launch local_planner local_planner_play_ground.launch
 ```
 #### Use Publish Point on Rviz2
-Use Publish Point plugin to give a goal to the local planner, and it will generate a prune plan to the goal you provide
+Use Publish Point to give a goal to the local planner, and it will generate a prune plan to the goal you provide.
+<p align='center'>
+    <img src="https://github.com/dddmobilerobot/dddmr_documentation_materials/blob/main/local_planner/local_planner_play_ground.gif" width="700" height="440"/>
+</p>
