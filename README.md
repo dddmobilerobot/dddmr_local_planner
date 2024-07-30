@@ -8,6 +8,8 @@ DDDmobileRobot local planner including following plugined-based features:
 Our local planner is similar as Nav2 DWB planner but differentiate from following perspectives:
 - Our local planner is for 3D navigation, the collision and trajectory rating are computed in 3D perspective. For example, the collision check in 2D is by checking a point in a polygon, however, in 3D we check collision by checking a point cloud in a cuboid.
 - Our local planner enable each trajectory generator to have seperated critics and weights, which allowing users to setup flexibility behaviors for the robot.
+- Our (differential drive) dd_simple_trajectory_generator_theory consider motor constraint for the trajectory generation.
+  - When maximum linear speed is set as the maximum speed of the motor, the robot is no longer capable of executing any angular speed. Consider this example: say the maximum speed of motor is 100 rpm which is corespond to 1 m/s, when the robot reach 1 m/s, it will also generate trajectories using 1 m/s and 0.1 rad/s whatever, that will require more than 100 rpm on the right wheel. We introduce motor constraint setup to trajectory generation for maximizing the motor capibility.
 <p align='center'>
     <img src="https://github.com/dddmobilerobot/dddmr_documentation_materials/blob/main/local_planner/local_planner_play_ground_annotated.png" width="720" height="420"/>
 </p>
