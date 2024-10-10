@@ -48,6 +48,10 @@ void Local_Planner::initial(
   this->get_parameter("odom_topic", odom_topic_);
   RCLCPP_INFO(this->get_logger(), "odom_topic: %s", odom_topic_.c_str());
 
+  declare_parameter("odom_topic_qos", rclcpp::ParameterValue("reliable"));
+  this->get_parameter("odom_topic_qos", odom_topic_qos_);
+  RCLCPP_INFO(this->get_logger(), "odom_topic_qos: %s", odom_topic_qos_.c_str());
+
   declare_parameter("compute_best_trajectory_in_odomCb", rclcpp::ParameterValue(false));
   this->get_parameter("compute_best_trajectory_in_odomCb", compute_best_trajectory_in_odomCb_);
   RCLCPP_INFO(this->get_logger(), "compute_best_trajectory_in_odomCb: %d", compute_best_trajectory_in_odomCb_);
@@ -116,9 +120,16 @@ void Local_Planner::initial(
   rclcpp::SubscriptionOptions sub_options;
   sub_options.callback_group = cbs_group_;
   
-  odom_ros_sub_ = this->create_subscription<nav_msgs::msg::Odometry>(
-      "odom", 2,
+  if(odom_topic_qos_=="reliable" || odom_topic_qos_=="Reliable"){
+    odom_ros_sub_ = this->create_subscription<nav_msgs::msg::Odometry>(
+      odom_topic_, rclcpp::QoS(rclcpp::KeepLast(1)).durability_volatile().reliable(),
       std::bind(&Local_Planner::cbOdom, this, std::placeholders::_1), sub_options);
+  }
+  else{
+    odom_ros_sub_ = this->create_subscription<nav_msgs::msg::Odometry>(
+      odom_topic_, rclcpp::QoS(rclcpp::KeepLast(1)).durability_volatile().best_effort(),
+      std::bind(&Local_Planner::cbOdom, this, std::placeholders::_1), sub_options);
+  }
   
   //@Initial pcl ptr
   pcl_global_plan_.reset(new pcl::PointCloud<pcl::PointXYZ>);

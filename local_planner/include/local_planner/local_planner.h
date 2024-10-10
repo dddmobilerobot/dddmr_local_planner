@@ -101,6 +101,7 @@ class Local_Planner : public rclcpp::Node {
       std::string global_frame_;
       std::string robot_frame_;
       std::string odom_topic_;
+      std::string odom_topic_qos_;
       
       /*For cuboid visualization*/
       visualization_msgs::msg::MarkerArray robot_cuboid_;
