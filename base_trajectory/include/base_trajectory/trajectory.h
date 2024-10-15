@@ -57,9 +57,9 @@ namespace base_trajectory {
        * @param thetav The theta velocity used to seed the trajectory
        * @param num_pts The expected number of points for a trajectory
        */
-      Trajectory(double xv, double thetav, double time_delta, unsigned int num_pts);
+      Trajectory(double xv, double yv, double thetav, double time_delta, unsigned int num_pts);
 
-      double xv_, thetav_; ///< @brief The x, y, and theta velocities of the trajectory
+      double xv_, yv_, thetav_; ///< @brief The x, y, and theta velocities of the trajectory
 
       double cost_; ///< @brief The cost/score of the trajectory
 
