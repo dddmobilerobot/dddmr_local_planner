@@ -328,7 +328,7 @@ void Local_Planner::setPlan(const std::vector<geometry_msgs::msg::PoseStamped>& 
 
   kdtree_global_plan_.reset(new pcl::search::KdTree<pcl::PointXYZ>());
   kdtree_global_plan_->setInputCloud (pcl_global_plan_);
-  RCLCPP_WARN(this->get_logger().get_child(name_), "Recieve new global plan.");
+  RCLCPP_INFO_THROTTLE(this->get_logger().get_child(name_), *clock_, 10000, "Recieve new global plan.");
 }
 
 double Local_Planner::getDistanceBTWPoseStamp(const geometry_msgs::msg::PoseStamped& a, const geometry_msgs::msg::PoseStamped& b){
